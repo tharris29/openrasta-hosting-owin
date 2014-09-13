@@ -71,6 +71,7 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestServerBase.cs" />
+    <Compile Include="WhenSendingABadRequest.cs" />
     <Compile Include="WhenSendingAPostRequest.cs" />
     <Compile Include="WhenHandlerSetsResponseCode.cs" />
     <Compile Include="WhenSendingAGoodRequestWithParams.cs" />

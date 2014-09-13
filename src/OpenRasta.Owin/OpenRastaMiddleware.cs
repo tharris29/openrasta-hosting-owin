@@ -6,6 +6,7 @@ using OpenRasta.Configuration;
 using OpenRasta.DI;
 using OpenRasta.Diagnostics;
 using OpenRasta.Hosting;
+using OpenRasta.Web;
 
 namespace OpenRasta.Owin
 {
@@ -48,18 +49,24 @@ namespace OpenRasta.Owin
 
         private IOwinContext ProcessRequest(IOwinContext owinContext)
         {
-            var context = new OwinCommunicationContext(owinContext, Log);
+            var openRastaContext = new OwinCommunicationContext(owinContext, Log);
                     
             lock (SyncRoot)
             {
-                Host.RaiseIncomingRequestReceived(context);
+                Host.RaiseIncomingRequestReceived(openRastaContext);
 
-                Host.RaiseIncomingRequestProcessed(context);
+                Host.RaiseIncomingRequestProcessed(openRastaContext);
             }
+
+            LogErrors(owinContext, openRastaContext);
 
             return owinContext;
         }
 
+        private void LogErrors(IOwinContext owinContext, ICommunicationContext context)
+        {
+            owinContext.Environment.Add("OR_ServerErrors", context.ServerErrors);
+        }
 
         private void TryInitializeHosting()
         {
