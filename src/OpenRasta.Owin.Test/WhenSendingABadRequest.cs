@@ -18,7 +18,7 @@ namespace OpenRasta.Owin.Test
         }
         
         [Test]
-        public async void ResponseStatusCodeIsOk()
+        public async void ResponseStatusCodeIsBadRequest()
         {
             var response = await CallGetUrlAsync(Url);
             Assert.AreEqual(response.StatusCode, HttpStatusCode.BadRequest);

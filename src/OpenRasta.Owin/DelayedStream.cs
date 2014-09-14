@@ -1,5 +1,7 @@
 using System.IO;
 using System.Linq;
+using OpenRasta.DI;
+using OpenRasta.Web;
 
 namespace OpenRasta.Owin
 {
@@ -43,10 +45,13 @@ namespace OpenRasta.Owin
 
         public override void Flush()
         {
-            if (_bytes != null)
+            var commcontext = DependencyManager.GetService<ICommunicationContext>();
+            
+            if (commcontext != null && !commcontext.Response.HeadersSent)
             {
-                _baseStream.Write(_bytes, 0, _bytes.Count());
+                commcontext.Response.WriteHeaders();
             }
+
             _baseStream.Flush();
         }
 
@@ -73,8 +78,7 @@ namespace OpenRasta.Owin
             }
             else
             {
-                _bytes.CopyTo(buffer,0);
-
+                _bytes.CopyTo(buffer, 0);
             }
             _delayedStream.Write(buffer, offset, count);
         }

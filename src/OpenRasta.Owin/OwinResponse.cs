@@ -23,6 +23,7 @@ namespace OpenRasta.Owin
         public IHttpEntity Entity { get; private set; }
         public HttpHeaderDictionary Headers { get; private set; }
         public bool HeadersSent { get; private set; }
+        private bool FlushSent { get; set; }
 
         public int StatusCode
         {
@@ -33,7 +34,11 @@ namespace OpenRasta.Owin
         public void WriteHeaders()
         {
             if (HeadersSent)
+            {
                 throw new InvalidOperationException("The headers have already been sent.");
+            }
+
+            var commcontext = DependencyManager.GetService<ICommunicationContext>();
             foreach (var header in Headers.Where(h => h.Key != "Content-Type"))
             {
                 try
@@ -43,7 +48,6 @@ namespace OpenRasta.Owin
                 }
                 catch (Exception ex)
                 {
-                    var commcontext = DependencyManager.GetService<ICommunicationContext>();
                     if (commcontext != null)
                     {
                         commcontext.ServerErrors.Add(new Error {Message = ex.ToString()});
@@ -57,6 +61,13 @@ namespace OpenRasta.Owin
                     new[] {Headers.ContentType.MediaType}));
             }
 
+            WriteResponse(NativeContext, commcontext);
+            
+        }
+
+        private void WriteResponse(IOwinResponse owinContext, ICommunicationContext context)
+        {
+            owinContext.Environment.Add("OR_ServerErrors", context.ServerErrors);
             Entity.Stream.Flush();
         }
     }

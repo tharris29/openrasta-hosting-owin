@@ -58,15 +58,9 @@ namespace OpenRasta.Owin
                 Host.RaiseIncomingRequestProcessed(openRastaContext);
             }
 
-            LogErrors(owinContext, openRastaContext);
-
             return owinContext;
         }
 
-        private void LogErrors(IOwinContext owinContext, ICommunicationContext context)
-        {
-            owinContext.Environment.Add("OR_ServerErrors", context.ServerErrors);
-        }
 
         private void TryInitializeHosting()
         {

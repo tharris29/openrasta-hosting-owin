@@ -14,7 +14,7 @@
     <tags>OWIN Selfhost OpenRasta</tags>
     <dependencies>
 		<dependency id="Microsoft.Owin" version="2.1.0" />
-		<dependency id="openrasta-core" version="2.5.7"/>
+		<dependency id="openrasta-core" version="2.5.23"/>
 		<dependency id="Owin" version="1.0"/>
     </dependencies>
   </metadata>
