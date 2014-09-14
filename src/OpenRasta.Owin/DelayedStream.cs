@@ -52,6 +52,11 @@ namespace OpenRasta.Owin
                 commcontext.Response.WriteHeaders();
             }
 
+            if (_bytes != null)
+            {
+                _baseStream.Write(_bytes, 0, _bytes.Count());
+            }
+
             _baseStream.Flush();
         }
 
