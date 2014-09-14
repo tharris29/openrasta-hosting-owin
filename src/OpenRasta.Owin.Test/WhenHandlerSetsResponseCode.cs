@@ -8,7 +8,7 @@ namespace OpenRasta.Owin.Test
     [TestFixture]
     public class WhenHandlerSetsResponseCode : TestServerBase
     {
-        string Url = "http://testserver/Get/Error";
+        private const string Url = "http://testserver/Get/Error";
 
         [Test]
         public async void ResponseIsNotNull()
@@ -21,7 +21,7 @@ namespace OpenRasta.Owin.Test
         public async void ResponseIsABadRequest()
         {
             var response = await CallGetUrlAsync(Url);
-            Assert.IsTrue(response.StatusCode == HttpStatusCode.BadRequest);
+            Assert.AreEqual(response.StatusCode, HttpStatusCode.BadRequest);
         }
 
         [Test]

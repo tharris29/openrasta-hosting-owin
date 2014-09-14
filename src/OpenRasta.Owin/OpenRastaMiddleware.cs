@@ -49,10 +49,10 @@ namespace OpenRasta.Owin
 
         private IOwinContext ProcessRequest(IOwinContext owinContext)
         {
-            var openRastaContext = new OwinCommunicationContext(owinContext, Log);
-                    
             lock (SyncRoot)
             {
+                var openRastaContext = new OwinCommunicationContext(owinContext, Log);
+                    
                 Host.RaiseIncomingRequestReceived(openRastaContext);
 
                 Host.RaiseIncomingRequestProcessed(openRastaContext);

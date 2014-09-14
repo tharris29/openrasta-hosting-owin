@@ -1,7 +1,5 @@
-﻿using System.Linq;
-using System.Net;
+﻿using System.Net;
 using NUnit.Framework;
-using Shouldly;
 
 namespace OpenRasta.Owin.Test
 {
